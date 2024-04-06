@@ -18,6 +18,14 @@ def TokensView():
     archivo_menu.add_command(label="Salir", command=ventana.quit)
     barra_menu.add_cascade(label="Archivo", menu=archivo_menu)
 
+    # Agregar opción de menú para regresar a la ventana MainView
+    def open_main_view():
+        ventana.destroy()  # Cerrar la ventana TokensView
+        from Interfaz.MainView import MainView  # Importar la función MainView aquí
+        MainView()  # Abrir la ventana MainView
+
+    barra_menu.add_command(label="Regresar", command=open_main_view)
+
     # Crear marco para la tabla
     frame = tk.Frame(ventana)
     frame.grid(sticky='nsew', padx=50, pady=50)
