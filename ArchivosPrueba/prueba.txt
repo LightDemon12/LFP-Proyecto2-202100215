@@ -23,3 +23,8 @@ EliminarUnico eliminadoc = nueva EliminarUnico(“NombreColeccion”, “
 ”); 
 BuscarTodo todo = nueva BuscarTodo (“NombreColeccion”);
 BuscarUnico todo = nueva BuscarUnico (“NombreColeccion”);
+
+
+
+
+
