@@ -1,21 +1,20 @@
 import tkinter as tk
 from tkinter import Menu, ttk
 
-def TokensView():
+def ErroresView():
     ventana = tk.Tk()
     ventana.geometry('720x480')
-    ventana.title('Menú Tokens')  # Aquí se define el nombre de la ventana
+    ventana.title('Menú Errores')  # Aquí se define el nombre de la ventana
 
     # Crear barra de menú
     barra_menu = Menu(ventana)
     ventana.config(menu=barra_menu)
 
     # Crear opciones de menú
-    archivo_menu = Menu(barra_menu, tearoff=0)
 
     # Agregar opción de menú para regresar a la ventana MainView
     def open_main_view():
-        ventana.destroy()  # Cerrar la ventana TokensView
+        ventana.destroy()  # Cerrar la ventana ErroresView
         from Interfaz.MainView import MainView  # Importar la función MainView aquí
         MainView()  # Abrir la ventana MainView
 
@@ -30,11 +29,11 @@ def TokensView():
     ventana.grid_rowconfigure(0, weight=1)
 
     # Crear tabla
-    tabla = ttk.Treeview(frame, columns=('Correlativo', 'Token', 'NumeroToken', 'Lexema', 'Columna', 'Fila'), show='headings')
+    tabla = ttk.Treeview(frame, columns=('TipoError', 'Linea', 'Columna', 'Token/Lexico', 'Descripcion'), show='headings')
     tabla.grid(sticky='nsew')
 
     # Configurar las columnas
-    for column in ('Correlativo', 'Token', 'NumeroToken', 'Lexema', 'Columna', 'Fila'):
+    for column in ('TipoError', 'Linea', 'Columna', 'TokenLexico', 'Descripcion'):
         tabla.heading(column, text=column)
         tabla.column(column, stretch=True)  # Hacer que la columna se ajuste al tamaño de la ventana
 
@@ -49,4 +48,4 @@ def TokensView():
     ventana.mainloop()
 
 if __name__ == "__main__":
-    TokensView()
+    ErroresView()

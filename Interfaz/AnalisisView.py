@@ -1,15 +1,12 @@
 import tkinter as tk
 from tkinter import Menu, Text
-from Interfaz.TokensView import TokensView  # Importar la función TokensView
-from Interfaz.ErroresView import ErroresView  # Importar la función ErroresView
-from Interfaz.AnalisisView import AnalisisView  # Importar la función MainView
 from Logica.seleccion_archivo import seleccionar_archivo  # Importar la función seleccionar_archivo
 from Logica.Guardar_archivo import guardar_como, guardar, nuevo  # Importar las funciones guardar_como, guardar y nuevo
 
-def MainView():
+def AnalisisView():
     ventana = tk.Tk()
     ventana.geometry('720x480')
-    ventana.title('Área de código')  # Aquí se define el nombre de la ventana
+    ventana.title('Área de análisis')  # Aquí se define el nombre de la ventana
 
     # Crear marco para el área de texto
     frame = tk.Frame(ventana)
@@ -52,26 +49,7 @@ def MainView():
     archivo_menu.add_command(label="Guardar como", command=guardar_como_cmd)  # Agregar la opción "Guardar como" al menú
     archivo_menu.add_command(label="Salir", command=ventana.destroy)  # Cerrar el programa
     barra_menu.add_cascade(label="Archivo", menu=archivo_menu)
-
-    # Agregar opción de menú para abrir la ventana TokensView
-    def open_tokens_view():
-        ventana.destroy()  # Cerrar la ventana MainView
-        TokensView()  # Abrir la ventana TokensView
-
-    # Agregar opción de menú para abrir la ventana ErroresView
-    def open_errores_view():
-        ventana.destroy()
-        ErroresView()
-
-    # Agregar opción de menú para abrir la ventana AnalisisView
-    def open_Analisis_view():
-        ventana.destroy()
-        AnalisisView()
-
-    barra_menu.add_command(label="Tokens", command=open_tokens_view)
-    barra_menu.add_command(label="Errores", command=open_errores_view)
-    barra_menu.add_command(label="Analizar", command=open_Analisis_view)
-
+    
     # Configurar el grid
     ventana.grid_columnconfigure(0, weight=1)
     ventana.grid_rowconfigure(0, weight=1)
@@ -83,4 +61,4 @@ def MainView():
     ventana.mainloop()
 
 if __name__ == "__main__":
-    MainView()
+    AnalisisView()
