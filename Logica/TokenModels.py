@@ -1,9 +1,25 @@
 class Token:
     def __init__(self, valor, tipo, linea, columna):
-        self.valor = valor
-        self.tipo = tipo
+        self._valor = valor
+        self._tipo = tipo
         self.linea = linea
         self.columna = columna
+
+    @property
+    def valor(self):
+        return self._valor
+
+    @valor.setter
+    def valor(self, valor):
+        self._valor = valor
+
+    @property
+    def tipo(self):
+        return self._tipo
+
+    @tipo.setter
+    def tipo(self, tipo):
+        self._tipo = tipo
 
 class Instruccion(Token):
     def __init__(self, valor, linea, columna):
