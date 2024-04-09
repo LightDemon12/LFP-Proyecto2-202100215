@@ -36,7 +36,7 @@ def TokensView():
     # Configurar las columnas
     for column in ('Correlativo', 'Token', 'NumeroToken', 'Lexema', 'Columna', 'Fila'):
         tabla.heading(column, text=column)
-        tabla.column(column, stretch=True)  # Hacer que la columna se ajuste al tamaño de la ventana
+        tabla.column(column, stretch=True, width=int(ventana.winfo_width() / 6))  # Hacer que la columna se ajuste al tamaño de la ventana
 
     # Configurar el grid del marco
     frame.grid_columnconfigure(0, weight=1)

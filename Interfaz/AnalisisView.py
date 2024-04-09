@@ -20,6 +20,14 @@ def AnalisisView():
     barra_menu = Menu(ventana)
     ventana.config(menu=barra_menu)
 
+    # Agregar opción de menú para regresar a la ventana MainView
+    def open_main_view():
+        ventana.destroy()  # Cerrar la ventana ErroresView
+        from Interfaz.MainView import MainView  # Importar la función MainView aquí
+        MainView()  # Abrir la ventana MainView
+
+    barra_menu.add_command(label="Regresar", command=open_main_view)
+    
     # Función para abrir un archivo y cargar su contenido en el área de texto
     def abrir_archivo():
         global ruta_archivo  # Declarar ruta_archivo como global para que pueda ser accedida desde otras funciones
