@@ -1,106 +1,37 @@
 class Token:
     def __init__(self, valor, tipo, linea, columna):
-        self._valor = valor
-        self._tipo = tipo
+        self.valor = valor
+        self.tipo = tipo
         self.linea = linea
         self.columna = columna
 
-    @property
-    def valor(self):
-        return self._valor
-
-    @valor.setter
-    def valor(self, valor):
-        self._valor = valor
-
-    @property
-    def tipo(self):
-        return self._tipo
-
-    @tipo.setter
-    def tipo(self, tipo):
-        self._tipo = tipo
+class Reservada(Token):
+    def __init__(self, valor, linea, columna):
+        super().__init__(valor, 'RESERVADA', linea, columna)
 
 class Instruccion(Token):
     def __init__(self, valor, linea, columna):
         super().__init__(valor, 'INSTRUCCION', linea, columna)
 
-class CrearBD(Instruccion):
+class Numero(Token):
     def __init__(self, valor, linea, columna):
-        super().__init__(valor, 'CREARBD', linea, columna)
+        super().__init__(valor, 'NUMERO', linea, columna)
 
-class EliminarBD(Instruccion):
+class Palabra(Token):
     def __init__(self, valor, linea, columna):
-        super().__init__(valor, 'ELIMINARBD', linea, columna)
+        super().__init__(valor, 'PALABRA', linea, columna)
 
-class CrearColeccion(Instruccion):
+class CaracterEspecial(Token):
     def __init__(self, valor, linea, columna):
-        super().__init__(valor, 'CREARCOLECCION', linea, columna)
+        super().__init__(valor, 'CARACTER_ESPECIAL', linea, columna)
+        
+class Conexion(Token):
+    def __init__(self, valor, linea, columna):
+        super().__init__(valor, 'CONEXION', linea, columna)
 
-class EliminarColeccion(Instruccion):
-    def __init__(self, valor, linea, columna):
-        super().__init__(valor, 'ELIMINARCOLECCION', linea, columna)
-
-class InsertarUnico(Instruccion):
-    def __init__(self, valor, linea, columna):
-        super().__init__(valor, 'INSERTARUNICO', linea, columna)
-
-class ActualizarUnico(Instruccion):
-    def __init__(self, valor, linea, columna):
-        super().__init__(valor, 'ACTUALIZARUNICO', linea, columna)
-
-class EliminarUnico(Instruccion):
-    def __init__(self, valor, linea, columna):
-        super().__init__(valor, 'ELIMINARUNICO', linea, columna)
-
-class BuscarTodo(Instruccion):
-    def __init__(self, valor, linea, columna):
-        super().__init__(valor, 'BUSCARTODO', linea, columna)
-
-class BuscarUnico(Instruccion):
-    def __init__(self, valor, linea, columna):
-        super().__init__(valor, 'BUSCARUNICO', linea, columna)
-
-class Texto(Token):
-    def __init__(self, valor, linea, columna):
-        super().__init__(valor, 'TEXTO', linea, columna)
-
-class Simbolo(Token):
-    def __init__(self, valor, linea, columna):
-        super().__init__(valor, 'SIMBOLO', linea, columna)
-
-class Equal(Simbolo):
-    def __init__(self, valor, linea, columna):
-        super().__init__(valor, 'EQUAL', linea, columna)
-
-class Colon(Simbolo):
-    def __init__(self, valor, linea, columna):
-        super().__init__(valor, 'COLON', linea, columna)
-
-class OpenBrace(Simbolo):
-    def __init__(self, valor, linea, columna):
-        super().__init__(valor, 'OPENBRACE', linea, columna)
-
-class CloseBrace(Simbolo):
-    def __init__(self, valor, linea, columna):
-        super().__init__(valor, 'CLOSEBRACE', linea, columna)
-
-class OpenParen(Simbolo):
-    def __init__(self, valor, linea, columna):
-        super().__init__(valor, 'OPENPAREN', linea, columna)
-
-class CloseParen(Simbolo):
-    def __init__(self, valor, linea, columna):
-        super().__init__(valor, 'CLOSEPAREN', linea, columna)
-
-class Semicolon(Simbolo):
-    def __init__(self, valor, linea, columna):
-        super().__init__(valor, 'SEMICOLON', linea, columna)
-
-class Quote(Simbolo):
-    def __init__(self, valor, linea, columna):
-        super().__init__(valor, 'QUOTE', linea, columna)
-
-class Comma(Simbolo):
-    def __init__(self, valor, linea, columna):
-        super().__init__(valor, 'COMMA', linea, columna)
+class Error:
+    def __init__(self, valor, tipo, linea, columna):
+        self.valor = valor
+        self.tipo = tipo
+        self.linea = linea
+        self.columna = columna

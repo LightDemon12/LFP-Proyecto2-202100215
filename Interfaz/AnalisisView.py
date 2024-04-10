@@ -5,7 +5,7 @@ from Logica.Guardar_archivo import guardar_como, guardar, nuevo  # Importar las 
 
 def AnalisisView():
     ventana = tk.Tk()
-    ventana.geometry('720x480')
+    ventana.geometry('1200x720')
     ventana.title('Área de análisis')  # Aquí se define el nombre de la ventana
 
     # Crear marco para el área de texto

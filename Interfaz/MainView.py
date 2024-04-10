@@ -3,13 +3,24 @@ from tkinter import Menu, Text
 from Interfaz.TokensView import TokensView  # Importar la función TokensView
 from Interfaz.ErroresView import ErroresView  # Importar la función ErroresView
 from Interfaz.AnalisisView import AnalisisView  # Importar la función MainView
-from Logica.seleccion_archivo import seleccionar_archivo  # Importar la función seleccionar_archivo
+from Logica.seleccion_archivo import seleccionar_archivo, get_contenido  # Importar la función seleccionar_archivo
 from Logica.Guardar_archivo import guardar_como, guardar, nuevo  # Importar las funciones guardar_como, guardar y nuevo
+from Logica.Analizador_Lexico import clasificar_palabra, leer_archivo, buscar_palabras_clave  # Importar las funciones clasificar_palabra y leer_archivo
+
+contenido_textarea = ""
+
+def cargar_contenido_textarea():
+    global contenido_textarea
+    global text_area
+    text_area.delete('1.0', tk.END)  # Borrar el contenido actual del área de texto
+    text_area.insert(tk.END, contenido_textarea)  # Rellena el TextArea con el contenido guardado
 
 def MainView():
     ventana = tk.Tk()
-    ventana.geometry('720x480')
+    ventana.geometry('1200x720')
     ventana.title('Área de código')  # Aquí se define el nombre de la ventana
+    global contenido_textarea
+    global text_area  # Hacer text_area una variable global
 
     # Crear marco para el área de texto
     frame = tk.Frame(ventana)
@@ -18,18 +29,20 @@ def MainView():
     # Crear área de texto
     text_area = Text(frame)
     text_area.grid(sticky='nsew')
-
+    cargar_contenido_textarea()
     # Crear barra de menú
     barra_menu = Menu(ventana)
     ventana.config(menu=barra_menu)
 
+
     # Función para abrir un archivo y cargar su contenido en el área de texto
     def abrir_archivo():
-        global ruta_archivo  # Declarar ruta_archivo como global para que pueda ser accedida desde otras funciones
+        global ruta_archivo
+        global contenido_textarea  # Acceder a contenido_textarea
         ruta_archivo, contenido = seleccionar_archivo()  # Usar la función seleccionar_archivo
         text_area.delete('1.0', tk.END)  # Borrar el contenido actual del área de texto
         text_area.insert(tk.END, contenido)  # Insertar el contenido del archivo en el área de texto
-
+        contenido_textarea = contenido  # Actualizar contenido_textarea con el contenido del archivo
     # Función para guardar el contenido del área de texto en un nuevo archivo
     def guardar_como_cmd():
         global ruta_archivo  # Declarar ruta_archivo como global para que pueda ser modificada desde esta función
@@ -55,16 +68,44 @@ def MainView():
 
     # Agregar opción de menú para abrir la ventana TokensView
     def open_tokens_view():
+        global contenido_textarea
+        global text_area
+        contenido_textarea = text_area.get("1.0", tk.END)
+        print("Token presionado")
+        palabras_procesadas, errores = leer_archivo(ruta_archivo)
+        buscar_palabras_clave(palabras_procesadas, errores)
+        # Imprimir las palabras procesadas
+        print("Palabras procesadas:")
+        for palabra in palabras_procesadas:
+            print(f"Valor: {palabra.valor}, Tipo: {palabra.tipo}, Línea: {palabra.linea}, Columna: {palabra.columna}")
+        
+        # Imprimir los errores
+        print("\nErrores:")
+        for error in errores:
+            print(f"Valor: {error.valor}, Tipo: {error.tipo}, Línea: {error.linea}, Columna: {error.columna}")
         ventana.destroy()  # Cerrar la ventana MainView
-        TokensView()  # Abrir la ventana TokensView
+        TokensView(palabras_procesadas)  # Abrir la ventana TokensView con palabras_procesadas
 
     # Agregar opción de menú para abrir la ventana ErroresView
     def open_errores_view():
-        ventana.destroy()
-        ErroresView()
+        global contenido_textarea
+        global text_area
+        contenido_textarea = text_area.get("1.0", tk.END)
+        print("Token presionado")
+        palabras_procesadas, errores = leer_archivo(ruta_archivo)
+        buscar_palabras_clave(palabras_procesadas, errores)
+        # Imprimir los errores
+        print("\nErrores:")
+        for error in errores:
+            print(f"Valor: {error.valor}, Tipo: {error.tipo}, Línea: {error.linea}, Columna: {error.columna}")
+        ventana.destroy()  # Cerrar la ventana MainView
+        ErroresView(errores)  # Abrir la ventana ErroresView con errores
 
     # Agregar opción de menú para abrir la ventana AnalisisView
     def open_Analisis_view():
+        global contenido_textarea
+        global text_area
+        contenido_textarea = text_area.get("1.0", tk.END)
         ventana.destroy()
         AnalisisView()
 
