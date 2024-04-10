@@ -29,7 +29,7 @@ def TokensView(palabras_procesadas):
 
     for column in ('Correlativo', 'Token', 'NumeroToken', 'Lexema', 'Columna', 'Fila'):
         tabla.heading(column, text=column)
-        tabla.column(column, stretch=True, width=int(ventana.winfo_width() / 6))
+        tabla.column(column, stretch=True, width=int(ventana.winfo_width() / 5), anchor='center')  # Añadir anchor='center'
 
     frame.grid_columnconfigure(0, weight=1)
     frame.grid_rowconfigure(0, weight=1)

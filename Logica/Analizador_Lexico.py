@@ -81,7 +81,7 @@ def leer_archivo(ruta_archivo):
                             palabras_procesadas.append(Palabra(palabra_actual, linea_actual, columna_actual - len(palabra_actual)))
                         palabra_actual = ''
                 else:
-                    errores.append(Error(caracter, 'TIPO_DE_ERROR', linea_actual, columna_actual))
+                    errores.append(Error(caracter, 'LEXICO', linea_actual, columna_actual))
                 columna_actual += 1
             
             if palabra_actual:
