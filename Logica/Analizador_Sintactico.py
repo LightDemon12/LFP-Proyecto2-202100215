@@ -3,6 +3,8 @@ from Interfaz.ErroresView import ErroresView
 import tkinter.messagebox as messagebox
 
 Errorsin = []
+traduccion = []
+
 
 class Parser:
     def __init__(self, palabras_procesadas, main_view):
@@ -48,6 +50,7 @@ class Parser:
 
         db_name = self.current_token.valor  # Guardamos el nombre de la base de datos
         print(f"Nombre de la base de datos: {db_name}")  # Imprimimos el nombre de la base de datos
+        traduccion.append(f"use {db_name}")  # Agregamos 'use {db_name}' a la lista traduccion
         self.next_token()  # Avanzamos al siguiente token
 
         self.expect('=')  # Esperamos el token '='
