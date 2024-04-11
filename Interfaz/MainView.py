@@ -112,11 +112,9 @@ def MainView():
         if errores:  # Si la lista errores tiene objetos dentro
             messagebox.showerror("Error", "Se encontraron errores léxicos. No se puede continuar con el análisis sintáctico.")
         else:
-            parser = Parser(palabras_procesadas, ventana)  # Pasamos una referencia a la ventana MainView
-            try:
-                parser.parse()
-            except SyntaxError as e:
-                print(f"Error de sintaxis: {e}")
+            parser = Parser(palabras_procesadas)  # Pasamos una referencia a la ventana MainView
+            start_tokens = ['CrearBD', 'CrearColeccion']  # Lista de tokens que indican cuándo empezar a copiar
+            temp_list = parser.extract_until_semicolon(start_tokens)
             if not parser.Errorsin:  # Si la lista Errorsin está vacía (es decir, no hay errores)
                 generar_traduccion(parser.traduccion, 'archivo_salida.txt')  # Llama a la función generar_traduccion()
             ventana.destroy()
