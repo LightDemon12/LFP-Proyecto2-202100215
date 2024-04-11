@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import Menu, Text
+import tkinter.messagebox as messagebox
 from Interfaz.TokensView import TokensView  # Importar la función TokensView
 from Interfaz.ErroresView import ErroresView  # Importar la función ErroresView
 from Interfaz.AnalisisView import AnalisisView  # Importar la función MainView
@@ -106,14 +107,16 @@ def MainView():
         global text_area
         contenido_textarea = text_area.get("1.0", tk.END)
         palabras_procesadas, errores = leer_archivo(ruta_archivo)  # Obtenemos las palabras procesadas
-        parser = Parser(palabras_procesadas)
-        try:
-            parser.parse()
-
-        except SyntaxError as e:
-            print(f"Error de sintaxis: {e}")
-        ventana.destroy()
-        AnalisisView()
+        if errores:  # Si la lista errores tiene objetos dentro
+            messagebox.showerror("Error", "Se encontraron errores léxicos. No se puede continuar con el análisis sintáctico.")
+        else:
+            parser = Parser(palabras_procesadas, ventana)  # Pasamos una referencia a la ventana MainView
+            try:
+                parser.parse()
+            except SyntaxError as e:
+                print(f"Error de sintaxis: {e}")
+            ventana.destroy()
+            AnalisisView()
 
     barra_menu.add_command(label="Tokens", command=open_tokens_view)
     barra_menu.add_command(label="Errores", command=open_errores_view)
