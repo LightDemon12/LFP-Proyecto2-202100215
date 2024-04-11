@@ -16,6 +16,10 @@ def AnalisisView():
     text_area = Text(frame)
     text_area.grid(sticky='nsew')
 
+    with open('archivo_salida.txt', 'r', encoding='utf-8') as f:
+        contenido = f.read()
+    text_area.insert(tk.END, contenido)
+    
     # Crear barra de menú
     barra_menu = Menu(ventana)
     ventana.config(menu=barra_menu)
@@ -38,17 +42,21 @@ def AnalisisView():
     # Función para guardar el contenido del área de texto en un nuevo archivo
     def guardar_como_cmd():
         global ruta_archivo  # Declarar ruta_archivo como global para que pueda ser modificada desde esta función
+        ruta_archivo = 'archivo_salida.txt'  # Usar 'archivo_salida.txt' como archivo por defecto
         ruta_archivo = guardar_como(text_area)  # Usar la función guardar_como
 
     # Función para guardar el contenido del área de texto en el archivo actualmente abierto
     def guardar_cmd():
+        global ruta_archivo  # Declarar ruta_archivo como global para que pueda ser modificada desde esta función
+        ruta_archivo = 'archivo_salida.txt'  # Usar 'archivo_salida.txt' como archivo por defecto
         guardar(text_area, ruta_archivo)  # Usar la función guardar
 
     # Función para crear un nuevo archivo
     def nuevo_cmd():
         global ruta_archivo  # Declarar ruta_archivo como global para que pueda ser modificada desde esta función
+        ruta_archivo = 'archivo_salida.txt'  # Usar 'archivo_salida.txt' como archivo por defecto
         ruta_archivo = nuevo(text_area, ruta_archivo)  # Usar la función nuevo
-
+        
     # Crear opciones de menú
     archivo_menu = Menu(barra_menu, tearoff=0)
     archivo_menu.add_command(label="Nuevo", command=nuevo_cmd)

@@ -40,7 +40,7 @@ errores = []
 def leer_archivo(ruta_archivo):
     palabras_reservadas = ["CrearBD", "EliminarBD", "CrearColeccion", "EliminarColeccion", "InsertarUnico", "ActualizarUnico", "EliminarUnico", "BuscarTodo", "BuscarUnico"]
     conexion = ["nueva", "elimina", "colec", "eliminacolec", "insertadoc", "$set", "todo"]
-    caracteres_especiales = ['{', '}', ':', '"', ',', ';', '[', ']', '=', '.', '#', '(', ')', '=', '$', '”', '“']
+    caracteres_especiales = ['{', '}', ':', '"', ',', ';', '[', ']', '=', '.', '#', '(', ')', '=', '$', '”', '“','-', '/', '*']
     palabras_procesadas = []
     errores = []
     

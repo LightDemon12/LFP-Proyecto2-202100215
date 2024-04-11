@@ -7,7 +7,7 @@ from Interfaz.AnalisisView import AnalisisView  # Importar la función MainView
 from Logica.seleccion_archivo import seleccionar_archivo, get_contenido  # Importar la función seleccionar_archivo
 from Logica.Guardar_archivo import guardar_como, guardar, nuevo  # Importar las funciones guardar_como, guardar y nuevo
 from Logica.Analizador_Lexico import clasificar_palabra, leer_archivo, buscar_palabras_clave  # Importar las funciones clasificar_palabra y leer_archivo
-from Logica.Analizador_Sintactico import Parser  # Importar la función analizar_sintaxis
+from Logica.Analizador_Sintactico import Parser, generar_traduccion  # Importar la función analizar_sintaxis
 contenido_textarea = ""
 
 def cargar_contenido_textarea():
@@ -105,6 +105,8 @@ def MainView():
     def open_Analisis_view():
         global contenido_textarea
         global text_area
+        global Errorsin  # Declaramos Errorsin como global
+        global traduccion  # Declaramos traduccion como global
         contenido_textarea = text_area.get("1.0", tk.END)
         palabras_procesadas, errores = leer_archivo(ruta_archivo)  # Obtenemos las palabras procesadas
         if errores:  # Si la lista errores tiene objetos dentro
@@ -115,6 +117,8 @@ def MainView():
                 parser.parse()
             except SyntaxError as e:
                 print(f"Error de sintaxis: {e}")
+            if not parser.Errorsin:  # Si la lista Errorsin está vacía (es decir, no hay errores)
+                generar_traduccion(parser.traduccion, 'archivo_salida.txt')  # Llama a la función generar_traduccion()
             ventana.destroy()
             AnalisisView()
 

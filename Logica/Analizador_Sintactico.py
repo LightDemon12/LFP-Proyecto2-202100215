@@ -13,6 +13,8 @@ class Parser:
         self.current_token = None
         self.has_errors = False
         self.main_view = main_view  # Guardamos una referencia a la ventana MainView
+        self.Errorsin = []
+        self.traduccion = []
         self.next_token()
 
     def next_token(self):
@@ -50,9 +52,9 @@ class Parser:
 
         db_name = self.current_token.valor  # Guardamos el nombre de la base de datos
         print(f"Nombre de la base de datos: {db_name}")  # Imprimimos el nombre de la base de datos
-        traduccion.append(f"use {db_name}")  # Agregamos 'use {db_name}' a la lista traduccion
+        self.traduccion.append(f"use {db_name}")  # Agregamos 'use {db_name}' a la lista traduccion
         self.next_token()  # Avanzamos al siguiente token
-
+        
         self.expect('=')  # Esperamos el token '='
         print(f"Coincidencia: {self.current_token.valor}")  # Imprimimos el token
 
@@ -91,3 +93,11 @@ class Parser:
             print(f"Objeto Error creado: Valor: {error.valor}, Tipo: {error.tipo}, Línea: {error.linea}, Columna: {error.columna}")
             if self.current_token.valor != ';':  # Solo avanzamos al siguiente token si el token actual no es ';'
                 self.next_token()  # Avanzamos al siguiente token a pesar del error
+
+
+def generar_traduccion(traduccion, archivo_salida):
+    with open(archivo_salida, 'w', encoding='utf-8') as f:
+        f.write('use admin\n')  # Escribe 'use admin' al inicio del archivo
+        for linea in traduccion:  # Para cada línea en la lista traduccion
+            f.write(linea + '\n')  # Escribe la línea en el archivo
+
