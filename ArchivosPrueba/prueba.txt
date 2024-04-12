@@ -1,8 +1,8 @@
-CrearColeccion colec = nueva CrearColeccion(“NombreColeccion”);
-CrearBD prueba = nueva CrearBD();
+CrearBD ejemplo = nueva CrearBD();
 EliminarBD elimina = nueva EliminarBD();
-
-EliminarColeccion eliminacolec = nueva EliminarColeccion(“NombreColeccion”);
+CrearColeccion colec = nueva CrearColeccion(“NombreColeccion”);
+EliminarColeccion eliminacolec = nueva 
+EliminarColeccion(“NombreColeccion”);
 InsertarUnico insertadoc = nueva InsertarUnico(“NombreColeccion”,“
 {
 "nombre":"Obra Literaria",
@@ -24,7 +24,6 @@ EliminarUnico eliminadoc = nueva EliminarUnico(“NombreColeccion”, “
 ”); 
 BuscarTodo todo = nueva BuscarTodo (“NombreColeccion”);
 BuscarUnico todo = nueva BuscarUnico (“NombreColeccion”);
-
 
 
 

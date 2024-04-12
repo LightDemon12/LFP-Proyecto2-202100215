@@ -1,23 +1,13 @@
 CrearBD prueba = nueva CrearBD();
 CrearColeccion colec = nueva CrearColeccion(“NombreColeccion”);
-EliminarBD elimina = nueva EliminarBD();
-EliminarColeccion eliminacolec = nueva EliminarColeccion(“NombreColeccion”);
-InsertarUnico insertadoc = nueva InsertarUnico(“NombreColeccion”,“
-{
-"nombre":"Obra Literaria",
-"autor":"Jorge Luis"
-}
-”);
-
-EliminarUnico eliminadoc = nueva EliminarUnico(“NombreColeccion”, “ 
+ActualizarUnico actualizadoc = nueva ActualizarUnico(“NombreColeccion”, “ 
 { 
 "nombre": "Obra Literaria" 
+}, 
+{ 
+$set: {"autor": "Mario Vargas"} 
 } 
 ”); 
-
-BuscarTodo todo = nueva BuscarTodo (“NombreColeccion”);
-BuscarUnico todo = nueva BuscarUnico (“NombreColeccion”);
-
 
 
 

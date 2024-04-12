@@ -125,7 +125,7 @@ def MainView():
                 show_error_and_destroy("Se encontraron errores sintácticos. Por favor, revisa la vista de errores.")
                 ErroresView(parser.Errorsin)  # Abre la vista de errores pasando la lista de errores
             else:
-                generar_traduccion(parser.traduccion, 'archivo_salida.txt')  # Llama a la función generar_traduccion()
+                generar_traduccion(parser.traduccion, 'archivo_salida.BSON')  # Llama a la función generar_traduccion()
                 ventana.destroy()
                 AnalisisView()
 

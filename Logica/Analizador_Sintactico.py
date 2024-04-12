@@ -1,10 +1,10 @@
-from Logica.TokenModels import Error
+from Logica.TokenModels import Error, MiBase
 from Interfaz.ErroresView import ErroresView
 import tkinter.messagebox as messagebox
 
 Errorsin = []
 traduccion = []
-
+Estado = []
 
 class Parser:
     def __init__(self, palabras_procesadas):
@@ -13,6 +13,7 @@ class Parser:
         self.valid_first_token = False
         self.Errorsin = []
         self.traduccion = []
+        self.Estado = []
         self.check_first_token()
 
     def current_token(self):
@@ -109,6 +110,8 @@ class Parser:
 
         return commands
 
+
+
     def verificar_sintaxis_crearbd(self, command):
         # Define la secuencia esperada de valores de tokens, con None para segundo token
         sec_esper = ['CrearBD', None, '=', 'nueva', 'CrearBD', '(', ')', ';']
@@ -129,12 +132,30 @@ class Parser:
                 return
 
         # Si todos los tokens coinciden con la secuencia esperada, imprime el comando
-
         print("No hay errores de sintaxis en el comando CrearBD")
 
         # Si no hay errores, añade la traducción a self.traduccion
         db_name = command[1].valor  # El nombre de la base de datos es el segundo token
+
+        # Verifica si ya existe un objeto con el mismo db_name en la lista Estado y su valor booleano es True
+        for estado_objeto in self.Estado:
+            if estado_objeto.nombre_unico == db_name:
+                if estado_objeto.valor_booleano:
+                    error = Error(db_name, "ESTRUCTURA DUPLICADA", token.linea, token.columna)
+                    self.Errorsin.append(error)
+                    print("Error: Estructura duplicada")
+                    return
+                else:
+                    estado_objeto.valor_booleano = True
+                    print("El valor booleano ha sido cambiado a True")
+                    return
+
         self.traduccion.append(f"use {db_name}")
+
+        # Crea un objeto con el nombre de la base de datos y el valor booleano True, y lo añade a la lista Estado
+        estado_objeto = MiBase(db_name, True)
+        self.Estado.append(estado_objeto)
+
 
     def verificar_sintaxis_crearcollection(self, command):
         # Define la secuencia esperada valores de tokens
@@ -320,7 +341,7 @@ class Parser:
                 remove_next_item = False
                 continue
             elif token.valor == ',':
-                document += ',\n'
+                document += ','
                 remove_next_item = True
             elif token.valor == ':':
                 document = document[:-1] + ':'
@@ -332,8 +353,57 @@ class Parser:
         print("Objeto añadido a la lista traduccion: ", traduccion_object)
 
     def verificar_sintaxis_actualizarunico(self, command):
-        # Aquí es donde verificarías la sintaxis del comando ActualizarUnico
-        print([token.valor for token in command])
+        # Define la secuencia esperada de tokens
+        sec_es = ['ActualizarUnico', 'actualizadoc', '=', 'nueva', 'ActualizarUnico', '(', '“']
+
+        # Comprueba si los valores de los tokens en el comando coinciden con la secuencia esperada
+        for i, (token, valor_esper) in enumerate(zip(command, sec_es)):
+            if valor_esper is not None and token.valor != valor_esper:
+                # Si el valor esperado no es None y no coincide con el valor del token, añade un error a self.Errorsin
+                error = Error(token.valor, "SINTACTICO", token.linea, token.columna)
+                self.Errorsin.append(error)
+                print(f"Error de sintaxis en el comando ActualizarUnico en la posición {i+1}")
+                return
+
+        # Busca el token '”'
+        try:
+            start_quote_index = next(i for i, token in enumerate(command) if token.valor == '“')
+            end_quote_index = next(i for i, token in enumerate(command) if token.valor == '”')
+        except StopIteration:
+            error = Error("SINTACTICO", command[-1].linea, command[-1].columna, "Falta el token '”'")
+            self.Errorsin.append(error)
+            print("Error de sintaxis en el comando ActualizarUnico: falta el token '”'")
+            return
+
+        # Recoge todos los tokens entre '“' y '”' que no sean espacios en blanco
+        collection_name = ''.join(token.valor for token in command[start_quote_index+1:end_quote_index] if token.valor.strip())
+
+        # Busca el token '{'
+        try:
+            start_brace_index = next(i for i, token in enumerate(command) if token.valor == '{')
+        except StopIteration:
+            error = Error("SINTACTICO", command[-1].linea, command[-1].columna, "Falta el token '{'")
+            self.Errorsin.append(error)
+            print("Error de sintaxis en el comando ActualizarUnico: falta el token '{'")
+            return
+
+        # Busca el segundo token '”'
+        try:
+            end_quote_index_2 = next(i for i, token in enumerate(command[start_brace_index:]) if token.valor == '”')
+        except StopIteration:
+            error = Error("SINTACTICO", command[-1].linea, command[-1].columna, "Falta el segundo token '”'")
+            self.Errorsin.append(error)
+            print("Error de sintaxis en el comando ActualizarUnico: falta el segundo token '”'")
+            return
+
+        # Recoge todos los tokens después de '{' y antes del segundo '”'
+        tokens_after_brace = command[start_brace_index:start_brace_index+end_quote_index_2]
+
+        # Crea un objeto con la estructura deseada y lo añade a la lista traduccion
+        tokens_string = ''.join(token.valor for token in tokens_after_brace)
+        traduccion_object = f"db.{collection_name}.updateOne({tokens_string})"
+        self.traduccion.append(traduccion_object)
+        print("Objeto añadido a la lista traduccion: ", traduccion_object)
 
 
 

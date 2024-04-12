@@ -1,10 +1,10 @@
 use admin
+use ejemplo
 db.createCollection('NombreColeccion');
-use prueba
 db.dropDatabase();
 db.NombreColeccion.drop();
-db.NombreColeccion.insertOne({nombre:"ObraLiteraria",
-autor:"JorgeLuis"});
+db.NombreColeccion.insertOne({nombre:"ObraLiteraria",autor:"JorgeLuis"});
+db.NombreColeccion.updateOne({"nombre":"ObraLiteraria"},{$set:{"autor":"MarioVargas"}})
 db.NombreColeccion.deleteOne({nombre:"ObraLiteraria"});
 db.NombreColeccion.find();
 db.NombreColeccion.findOne();

@@ -35,3 +35,8 @@ class Error:
         self.tipo = tipo
         self.linea = linea
         self.columna = columna
+
+class MiBase:
+    def __init__(self, nombre_unico, valor_booleano):
+        self.nombre_unico = nombre_unico
+        self.valor_booleano = valor_booleano
