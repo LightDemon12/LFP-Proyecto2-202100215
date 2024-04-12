@@ -37,6 +37,16 @@ class Error:
         self.columna = columna
 
 class MiBase:
-    def __init__(self, nombre_unico, valor_booleano):
+    def __init__(self, nombre_unico, valor_booleano, tipo, indice):
         self.nombre_unico = nombre_unico
         self.valor_booleano = valor_booleano
+        self.tipo = tipo
+        self.indice = indice
+
+class MiBase2:
+    def __init__(self, nombre_unico, valor_booleano, tipo):
+        self.nombre_unico = nombre_unico
+        self.valor_booleano = valor_booleano
+        self.tipo = tipo
+
+

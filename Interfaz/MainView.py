@@ -7,7 +7,9 @@ from Interfaz.AnalisisView import AnalisisView  # Importar la función MainView
 from Logica.seleccion_archivo import seleccionar_archivo, get_contenido  # Importar la función seleccionar_archivo
 from Logica.Guardar_archivo import guardar_como, guardar, nuevo  # Importar las funciones guardar_como, guardar y nuevo
 from Logica.Analizador_Lexico import clasificar_palabra, leer_archivo, buscar_palabras_clave  # Importar las funciones clasificar_palabra y leer_archivo
-from Logica.Analizador_Sintactico import Parser, generar_traduccion  # Importar la función analizar_sintaxis
+from Logica.Analizador_Sintactico import Parser, generar_traduccion
+from Logica.orden import leer_archivo_bson
+  # Importar la función analizar_sintaxis
 contenido_textarea = ""
 
 def cargar_contenido_textarea():
@@ -126,8 +128,14 @@ def MainView():
                 ErroresView(parser.Errorsin)  # Abre la vista de errores pasando la lista de errores
             else:
                 generar_traduccion(parser.traduccion, 'archivo_salida.BSON')  # Llama a la función generar_traduccion()
-                ventana.destroy()
-                AnalisisView()
+                # Llama a la función leer_archivo_bson después de generar la traducción
+                estado_db, estado_colec, eliminar_db, eliminar_colec, errorestruc = leer_archivo_bson('archivo_salida.BSON')
+                if errorestruc:  # Si la lista errorestruc tiene elementos
+                    show_error_and_destroy("Se encontraron errores estructurales. Por favor, revisa la vista de errores.")
+                    ErroresView(errorestruc)  # Abre la vista de errores pasando la lista de errores
+                else:
+                    ventana.destroy()
+                    AnalisisView()
 
     def show_error_and_destroy(message):
         messagebox.showerror("Error", message)

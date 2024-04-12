@@ -1,13 +1,41 @@
-CrearBD prueba = nueva CrearBD();
+CrearBD ejemplo = nueva CrearBD();
 CrearColeccion colec = nueva CrearColeccion(“NombreColeccion”);
-ActualizarUnico actualizadoc = nueva ActualizarUnico(“NombreColeccion”, “ 
-{ 
-"nombre": "Obra Literaria" 
-}, 
-{ 
-$set: {"autor": "Mario Vargas"} 
-} 
-”); 
+
+EliminarBD elimina = nueva EliminarBD();
+EliminarBD elimina = nueva EliminarBD();
+EliminarBD elimina = nueva EliminarBD();
+
+EliminarColeccion eliminacolec = nueva 
+EliminarColeccion(“NombreColeccion”);
+EliminarColeccion eliminacolec = nueva 
+EliminarColeccion(“NombreColeccion”);
+EliminarColeccion eliminacolec = nueva 
+EliminarColeccion(“NombreColeccion”);
+EliminarColeccion eliminacolec = nueva 
+EliminarColeccion(“NombreColeccion”);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

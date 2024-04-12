@@ -1,0 +1,3 @@
+CrearBD ejemplo = nueva CrearBD();
+EliminarBD elimina = nueva EliminarBD();
+EliminarBD elimina = nueva EliminarBD();

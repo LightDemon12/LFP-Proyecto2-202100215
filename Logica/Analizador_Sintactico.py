@@ -1,4 +1,4 @@
-from Logica.TokenModels import Error, MiBase
+from Logica.TokenModels import Error, MiBase2
 from Interfaz.ErroresView import ErroresView
 import tkinter.messagebox as messagebox
 
@@ -152,8 +152,8 @@ class Parser:
 
         self.traduccion.append(f"use {db_name}")
 
-        # Crea un objeto con el nombre de la base de datos y el valor booleano True, y lo añade a la lista Estado
-        estado_objeto = MiBase(db_name, True)
+        # Crea un objeto con el nombre de la base de datos, el valor booleano True, y el tipo "DB", y lo añade a la lista Estado
+        estado_objeto = MiBase2(db_name, True, "DB")
         self.Estado.append(estado_objeto)
 
 
@@ -199,6 +199,22 @@ class Parser:
         tokens_string = ' '.join(token.valor for token in tokens_between_quotes)
         traduccion_object = f"db.createCollection('{tokens_string}');"
         self.traduccion.append(traduccion_object)
+
+        # Verifica si ya existe un objeto con el mismo nombre de colección en la lista Estado y su valor booleano es True
+        for estado_objeto in self.Estado:
+            if estado_objeto.nombre_unico == tokens_string and estado_objeto.valor_booleano:
+                error = Error(tokens_string, "ESTRUCTURA DUPLICADA", token.linea, token.columna)
+                self.Errorsin.append(error)
+                print("Error: Estructura duplicada")
+                return
+            elif estado_objeto.nombre_unico == tokens_string and not estado_objeto.valor_booleano:
+                estado_objeto.valor_booleano = True
+                print("El valor booleano ha sido cambiado a True")
+                return
+
+        # Crea un objeto con el nombre de la colección, el valor booleano True, y el tipo "Coleccion", y lo añade a la lista Estado
+        estado_objeto = MiBase2(tokens_string, True, "Coleccion")
+        self.Estado.append(estado_objeto)
 
 
     def verificar_sintaxis_eliminarbd(self, command):
@@ -578,7 +594,7 @@ class Parser:
 
 def generar_traduccion(traduccion, archivo_salida):
     with open(archivo_salida, 'w', encoding='utf-8') as f:
-        f.write('use admin\n')  # Escribe 'use admin' al inicio del archivo
+        f.write('\n')  # Escribe 'use admin' al inicio del archivo
         for linea in traduccion:  # Para cada línea en la lista traduccion
             f.write(linea + '\n')  # Escribe la línea en el archivo
 
