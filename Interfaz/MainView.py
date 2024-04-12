@@ -110,15 +110,28 @@ def MainView():
         contenido_textarea = text_area.get("1.0", tk.END)
         palabras_procesadas, errores = leer_archivo(ruta_archivo)  # Obtenemos las palabras procesadas
         if errores:  # Si la lista errores tiene objetos dentro
-            messagebox.showerror("Error", "Se encontraron errores léxicos. No se puede continuar con el análisis sintáctico.")
+            show_error_and_destroy("Se encontraron errores léxicos. No se puede continuar con el análisis sintáctico.")
         else:
             parser = Parser(palabras_procesadas)  # Pasamos una referencia a la ventana MainView
             start_tokens = ['CrearBD', 'CrearColeccion']  # Lista de tokens que indican cuándo empezar a copiar
-            temp_list = parser.extract_until_semicolon(start_tokens)
-            if not parser.Errorsin:  # Si la lista Errorsin está vacía (es decir, no hay errores)
+            try:
+                temp_list = parser.extract_until_semicolon(start_tokens)
+                parser.extract_commands()  # Llama a la nueva función extract_commands
+            except ValueError as e:
+                show_error_and_destroy(str(e))
+                ErroresView(parser.Errorsin)  # Abre la vista de errores pasando la lista de errores
+                return
+            if parser.Errorsin:  # Si la lista Errorsin no está vacía (es decir, hay errores)
+                show_error_and_destroy("Se encontraron errores sintácticos. Por favor, revisa la vista de errores.")
+                ErroresView(parser.Errorsin)  # Abre la vista de errores pasando la lista de errores
+            else:
                 generar_traduccion(parser.traduccion, 'archivo_salida.txt')  # Llama a la función generar_traduccion()
-            ventana.destroy()
-            AnalisisView()
+                ventana.destroy()
+                AnalisisView()
+
+    def show_error_and_destroy(message):
+        messagebox.showerror("Error", message)
+        ventana.destroy()
 
     barra_menu.add_command(label="Tokens", command=open_tokens_view)
     barra_menu.add_command(label="Errores", command=open_errores_view)
