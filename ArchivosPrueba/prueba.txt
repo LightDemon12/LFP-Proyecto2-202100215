@@ -9,7 +9,13 @@ InsertarUnico insertadoc = nueva InsertarUnico(“NombreColeccion”,“
 "autor":"Jorge Luis"
 }
 ”);
-ActualizarUnico actualizadoc = nueva ActualizarUnico(“NombreColeccion”, “ 
+
+--- comentario
+/* 
+Comentario de 
+varias líneas 
+*/
+ActualizarUnico actualizadoc = nueva ActualizarUnico(“NombreColeccion”), “ 
 { 
 "nombre": "Obra Literaria" 
 }, 
@@ -17,6 +23,7 @@ ActualizarUnico actualizadoc = nueva ActualizarUnico(“NombreColeccion”, “
 $set: {"autor": "Mario Vargas"} 
 } 
 ”); 
+
 EliminarUnico eliminadoc = nueva EliminarUnico(“NombreColeccion”, “ 
 { 
 "nombre": "Obra Literaria" 
@@ -24,6 +31,55 @@ EliminarUnico eliminadoc = nueva EliminarUnico(“NombreColeccion”, “
 ”); 
 BuscarTodo todo = nueva BuscarTodo (“NombreColeccion”);
 BuscarUnico todo = nueva BuscarUnico (“NombreColeccion”);
+
+
+--- aaaaa
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

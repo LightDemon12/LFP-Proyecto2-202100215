@@ -1,4 +1,4 @@
-from Logica.TokenModels import Error, MiBase2
+from Logica.TokenModels import Error, MiBase2, Cadena
 from Interfaz.ErroresView import ErroresView
 import tkinter.messagebox as messagebox
 
@@ -15,7 +15,7 @@ class Parser:
         self.traduccion = []
         self.Estado = []
         self.check_first_token()
-
+        self.por_procesar = []
     def current_token(self):
         try:
             return self.palabras_procesadas[self.current_token_index]
@@ -592,9 +592,63 @@ class Parser:
         print("Objeto añadido a la lista traduccion: ", traduccion_object)
 
 
+    def print_palabras_procesadas(self):
+        if not self.palabras_procesadas:
+            print("La lista palabras_procesadas está vacía.")
+            return
+
+        # Copiar todos los elementos de palabras_procesadas a por_procesar
+        self.por_procesar.extend(self.palabras_procesadas)
+
+        # Inicializar una cadena vacía para almacenar los tokens
+        cadena = ""
+
+        i = 0
+        while i < len(self.por_procesar):
+            # Si los próximos tres tokens son '-', reemplazarlos por '//'
+            if (i < len(self.por_procesar) - 2 and 
+                self.por_procesar[i].valor == '-' and 
+                self.por_procesar[i+1].valor == '-' and 
+                self.por_procesar[i+2].valor == '-'):
+                cadena += '\n//'
+                i += 3
+                print("Agregado comentario de una línea a la cadena:", cadena)
+            # Si los próximos dos tokens son '/*', añadir un salto de línea y luego '/*' a la cadena
+            elif (i < len(self.por_procesar) - 1 and 
+                self.por_procesar[i].valor == '/' and 
+                self.por_procesar[i+1].valor == '*'):
+                cadena += '\n/*\n'
+                i += 2
+                print("Agregado inicio de comentario de bloque a la cadena:", cadena)
+            # Si el token actual es '*' y el próximo es '/', añadir un salto de línea, luego '*/' a la cadena y añadir otro salto de línea
+            elif (i < len(self.por_procesar) - 1 and 
+                self.por_procesar[i].valor == '*' and 
+                self.por_procesar[i+1].valor == '/'):
+                cadena = cadena.rstrip() + '\n*/\n'
+                i += 2
+                print("Agregado fin de comentario de bloque a la cadena:", cadena)
+            else:
+                # Añadir el valor del token a la cadena, seguido de un espacio si el próximo token no es '/'
+                cadena += self.por_procesar[i].valor
+                if i < len(self.por_procesar) - 1 and self.por_procesar[i+1].valor != '/':
+                    cadena += ' '
+                i += 1
+
+        print(cadena)
+        cadena_obj = Cadena(cadena)
+        #Agregar la cadena a self.traduccion
+        
+        #self.traduccion.append(cadena_obj)  # Comentado
+        print("Agregado cadena a traduccion:", self.traduccion)
+
+        # Vaciar la lista palabras_procesadas
+        self.palabras_procesadas.clear()
+
 def generar_traduccion(traduccion, archivo_salida):
     with open(archivo_salida, 'w', encoding='utf-8') as f:
-        f.write('\n')  # Escribe 'use admin' al inicio del archivo
-        for linea in traduccion:  # Para cada línea en la lista traduccion
-            f.write(linea + '\n')  # Escribe la línea en el archivo
-
+        f.write('')  # Escribe 'use admin' al inicio del archivo
+        for elemento in traduccion:
+            if isinstance(elemento, Cadena):  # Si el elemento es un objeto Cadena
+                f.write(str(elemento) + ': ' + elemento.valor + '\n')  # Escribe la representación del objeto y su valor en el archivo
+            else:  # Si el elemento es una cadena
+                f.write(elemento + '\n')  # Escribe la cadena en el archivo

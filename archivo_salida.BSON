@@ -1,10 +1,13 @@
+Cadena(
+//comentario
+/*
+Comentario de varias líneas
+*/
 
-use ejemplo
-db.createCollection('NombreColeccion');
-db.dropDatabase();
-db.dropDatabase();
-db.dropDatabase();
-db.NombreColeccion.drop();
-db.NombreColeccion.drop();
-db.NombreColeccion.drop();
-db.NombreColeccion.drop();
+//aaaaa): 
+//comentario
+/*
+Comentario de varias líneas
+*/
+
+//aaaaa
