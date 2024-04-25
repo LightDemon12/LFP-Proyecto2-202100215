@@ -4,12 +4,12 @@
 
 ### Primer Semestre de 2024
 
-
+---js
 Universidad San Carlos de Guatemala
 Programador: Angel Guillermo de Jesús Pérez Jiménez 
 Carne: 202100215
 Correo: 3870961320101@ingenieria.usac.edu.gt
-
+---
 
 ## Descripción del Proyecto
 
