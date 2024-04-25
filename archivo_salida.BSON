@@ -1,13 +1,8 @@
-Cadena(
-//comentario
-/*
-Comentario de varias líneas
-*/
-
-//aaaaa): 
-//comentario
-/*
-Comentario de varias líneas
-*/
-
-//aaaaa
+use ejemplo
+db.createCollection('NombreColeccion');
+db.NombreColeccion.drop();
+db.NombreColeccion.insertOne({nombre:"ObraLiteraria",autor:"JorgeLuis"});
+db.NombreColeccion.updateOne({"nombre":"ObraLiteraria"},{$set:{"autor":"MarioVargas"}})
+db.NombreColeccion.deleteOne({nombre:"ObraLiteraria"});
+db.NombreColeccion.find();
+db.NombreColeccion.findOne();

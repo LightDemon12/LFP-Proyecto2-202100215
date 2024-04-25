@@ -2,7 +2,6 @@ from Logica.TokenModels import Token, Reservada, Instruccion, Numero, Palabra, C
 caracteres = []
 def clasificar_palabra(palabra, linea_actual, columna_actual):
     caracteres_especiales = ['{', '}', ':', '"', ',', ';', '[', ']','=','.', '#',]
-
     tipo_palabra = None
     linea_palabra = linea_actual
     columna_palabra = columna_actual
@@ -21,7 +20,6 @@ def clasificar_palabra(palabra, linea_actual, columna_actual):
             else:
                 caracteres.append((caracter, 'OTRO', linea_palabra, columna_palabra))
             columna_palabra += 1
-    
     # Determinar el tipo de la palabra
     if palabra.startswith('"') and palabra.endswith('"'):
         tipo_palabra = 'CADENA'

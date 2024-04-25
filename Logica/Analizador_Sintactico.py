@@ -458,7 +458,6 @@ class Parser:
             self.Errorsin.append(error)
             print("Error de sintaxis en el comando EliminarUnico: falta el token '}'")
             return
-
         # Recoge todos los tokens entre '{' y '}'
         tokens_between_braces = command[start_brace_index+1:end_brace_index]
         if tokens_between_braces:

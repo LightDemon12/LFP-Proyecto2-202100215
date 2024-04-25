@@ -113,6 +113,7 @@ def MainView():
         palabras_procesadas, errores = leer_archivo(ruta_archivo)  # Obtenemos las palabras procesadas
         if errores:  # Si la lista errores tiene objetos dentro
             show_error_and_destroy("Se encontraron errores léxicos. No se puede continuar con el análisis sintáctico.")
+            ErroresView(errores)
         else:
             parser = Parser(palabras_procesadas)  # Pasamos una referencia a la ventana MainView
             start_tokens = ['CrearBD', 'CrearColeccion']  # Lista de tokens que indican cuándo empezar a copiar
