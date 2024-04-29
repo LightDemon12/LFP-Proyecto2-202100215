@@ -48,7 +48,7 @@ El proyecto también incluirá la definición de funciones que representarán la
 
 ## Partes del Proyecto
 
-![Carpetas y archivos en codigo fuente](hhttps://i.ibb.co/5s3v0J7/Estructura.png)
+![Carpetas y archivos en codigo fuente](https://i.ibb.co/5s3v0J7/Estructura.png)
 
 ## Tabla de Tokens
 
